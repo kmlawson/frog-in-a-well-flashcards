@@ -1,0 +1,21 @@
+<script>
+    if (window.location.protocol !== 'https:') {
+        window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flashcard Review</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Content will be dynamically inserted here -->
+    </div>
+    <script src="options.js"></script>
+    <script src="flashcard.js"></script>
+</body>
+</html>

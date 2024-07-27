@@ -1,0 +1,841 @@
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.index-view h1 {
+    display: block;
+}
+
+#practiceInstructions {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    margin-top: 20px;
+    padding: 0 20px;
+    line-height: 1.4;
+}
+
+#container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* Typography */
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Flashcard specific styles */
+.flashcard-title {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#card-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+#card {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.card-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Index View Styles */
+.card-set-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.card-set-item {
+    margin-bottom: 1.5em;
+}
+
+.card-set-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.3em;
+}
+
+.card-set-description {
+    margin-bottom: 0.3em;
+}
+
+.card-count {
+    color: #666; /* Slightly darker gray */
+    margin-right: 5px;
+}
+
+.card-set-actions {
+    font-size: 0.85em;
+    color: #777;
+    display: flex;
+}
+
+.card-set-actions a {
+    color: #777;
+    text-decoration: none;
+    margin-left: 7px;
+}
+
+.card-set-actions a:hover {
+    text-decoration: underline;
+}
+
+.required-percentage {
+    color: #666;
+    margin-right: 10px;
+}
+
+/* Adjust for mobile screens */
+@media screen and (max-width: 600px) {
+    .card-set-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .card-count, .required-percentage {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+
+
+/* Controls */
+#mode-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.tab {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.tab:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.tab.active {
+    background-color: #3498db;
+    color: white;
+}
+
+#practiceControls, #testControls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#correct, #incorrect, #submit {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#correct, #submit {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+#incorrect {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+#correct:hover, #submit:hover {
+    background-color: #c8e6c9;
+}
+
+#incorrect:hover {
+    background-color: #ffcdd2;
+}
+
+#input {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Stats */
+#stats {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Bottom buttons */
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    padding: 20px 10px;
+    margin-top: 20px;
+}
+
+.bottom-buttons .button {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: none;
+    padding: 12px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.bottom-buttons .button:hover {
+    background-color: #bbdefb;
+}
+
+/* Table styles for Browse view */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+tr {
+    border-bottom: 1px solid #ddd;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+td, th {
+    padding: 12px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+td:last-child {
+    white-space: nowrap;
+}
+
+/* FOOTER */
+.index-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Test mode styles */
+#timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#finalResult {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.final-stats {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.final-stats p {
+    margin: 10px 0;
+}
+
+
+#resultTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#resultTable th, #resultTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#resultTable th {
+    background-color: #f2f2f2;
+}
+
+#startTest {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#startTest:hover {
+    background-color: #2980b9;
+}
+
+#saveScoreContainer {
+    margin-top: 20px;
+}
+
+#saveScoreForm {
+    margin-top: 10px;
+}
+
+#playerName {
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+#saveScoreMessage {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+
+/* Review mode styles */
+.review-question {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.review-correct-answer {
+    color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+.review-user-answer {
+    color: #2196F3;
+    margin-bottom: 5px;
+}
+
+.review-result {
+    font-weight: bold;
+}
+
+#reviewControls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#reviewControls button {
+    margin: 0 10px;
+}
+
+/* Green buttons */
+
+.green-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.green-button:hover {
+    background-color: #45a049;
+}
+
+/* HIGH SCORES */
+
+.high-scores-container {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.high-scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+
+.high-scores-table th,
+.high-scores-table td {
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.high-scores-table th {
+    font-weight: bold;
+    background-color: #f2f2f2;
+}
+
+/* Responsive styles for mobile */
+@media screen and (max-width: 600px) {
+    .high-scores-table {
+        font-size: 0.8em;
+    }
+
+    .high-scores-table th,
+    .high-scores-table td {
+        padding: 3px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .high-scores-table th {
+        background-color: #333;
+    }
+
+    .high-scores-table th,
+    .high-scores-table td {
+        border-bottom-color: #444;
+    }
+}
+
+/* Practice Start Over and Review Buttons */
+
+#startOver, #reviewIncorrect {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 200px; /* Limit the maximum width */
+    width: auto; /* Allow the button to shrink if needed */
+}
+
+#startOver:hover, #reviewIncorrect:hover {
+    background-color: #c8e6c9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+#startOver:active, #reviewIncorrect:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    #startOver, #reviewIncorrect {
+        width: calc(100% - 20px); /* Full width minus margins on small screens */
+        max-width: none;
+    }
+}
+
+/* Dark mode styles for these buttons */
+@media (prefers-color-scheme: dark) {
+    #startOver, #reviewIncorrect {
+        background-color: #1b5e20; /* Darker green for dark mode */
+        color: #e8f5e9; /* Light green text for contrast in dark mode */
+    }
+
+    #startOver:hover, #reviewIncorrect:hover {
+        background-color: #2e7d32; /* Slightly lighter green on hover in dark mode */
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    #card {
+        background-color: #1e1e1e;
+        border-color: #333;
+    }
+
+    .tab {
+        background-color: #2c2c2c;
+        color: #e0e0e0;
+    }
+
+    .tab.active {
+        background-color: #0d47a1;
+    }
+
+    #submit, .bottom-buttons .button {
+        background-color: #1e3a5f;
+        color: #e0e0e0;
+    }
+
+    #input {
+        background-color: #2c2c2c;
+        color: #e0e0e0;
+        border-color: #444;
+    }
+
+    #practiceInstructions {
+        color: #888;
+    }
+
+    .bottom-buttons .button {
+        background-color: #1e3a5f;
+        color: #e0e0e0;
+    }
+
+    .bottom-buttons .button:hover {
+        background-color: #2c5282;
+    }
+
+    #resultTable th {
+        background-color: #333;
+    }
+
+    #resultTable th, #resultTable td {
+        border-color: #444;
+    }
+
+    .index-footer {
+        border-top-color: #444;
+        color: #999;
+    }
+
+    .review-correct-answer {
+        color: #81C784;
+    }
+
+    .review-user-answer {
+        color: #64B5F6;
+    }
+}
+
+/* Test Review Buttons */
+
+.review-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    background-color: #e8f5e9; /* Light green background */
+    color: #2e7d32; /* Dark green text for contrast */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.review-button:hover {
+    background-color: #c8e6c9; /* Slightly darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.review-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#reviewControls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 600px) {
+    .review-button {
+        width: calc(100% - 20px);
+        margin: 5px 10px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .review-button {
+        background-color: #1b5e20; /* Darker green for dark mode */
+        color: #e8f5e9; /* Light green text for contrast in dark mode */
+    }
+
+    .review-button:hover {
+        background-color: #2e7d32; /* Slightly lighter green on hover in dark mode */
+    }
+}
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    #container {
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    #card {
+        height: 180px;
+        font-size: 24px;
+    }
+
+    .tab, #submit, .bottom-buttons .button {
+        font-size: 15px;
+        padding: 10px 18px;
+    }
+
+    #input {
+        font-size: 17px; /* Minimum font size to prevent zooming on iOS */
+        padding: 10px;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+    }
+
+    #stats {
+        font-size: 13px;
+    }
+
+    #practiceInstructions {
+        font-size: 13px;
+    }
+
+    .card-content {
+        padding: 15px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        font-size: 20px;
+    }
+
+    #container {
+        padding: 15px;
+    }
+
+    #card {
+        height: 150px;
+        font-size: 20px;
+    }
+
+    .tab, #submit, .bottom-buttons .button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    #input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    td {
+        padding: 8px 4px;
+    }
+
+    #stats {
+        font-size: 12px;
+    }
+
+    #practiceInstructions {
+        font-size: 12px;
+    }
+
+    .bottom-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bottom-buttons .button {
+        margin: 5px 0;
+        width: 80%;
+    }
+
+    #finalResult {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #resultTable {
+        font-size: 12px;
+    }
+
+    #resultTable th, #resultTable td {
+        padding: 5px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    #container {
+        padding: 10px;
+    }
+
+    #card {
+        height: 130px;
+        font-size: 18px;
+    }
+
+    .tab, #submit, .bottom-buttons .button {
+        font-size: 13px;
+        padding: 7px 12px;
+    }
+
+    #input {
+        font-size: 13px;
+        padding: 7px;
+    }
+
+    #stats {
+        font-size: 11px;
+    }
+
+    #practiceInstructions {
+        font-size: 11px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media screen and (max-height: 480px) and (orientation: landscape) {
+    #card {
+        height: 100px;
+        font-size: 16px;
+    }
+
+    #stats {
+        margin-top: 10px;
+    }
+
+    .bottom-buttons {
+        margin-top: 15px;
+    }
+
+    .bottom-buttons .button {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+/* High-DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+}
+
+/* iOS Safari specific styles */
+@supports (-webkit-touch-callout: none) {
+    #card, .tab, #submit, .bottom-buttons .button {
+        -webkit-touch-callout: none;
+    }
+
+    input, button {
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+}
