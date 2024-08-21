@@ -290,9 +290,23 @@ td, th {
     vertical-align: top;
 }
 
-td:last-child {
-    white-space: nowrap;
+/* New rules for wrapping options */
+.wrap {
+    white-space: normal;
+    word-wrap: break-word;
 }
+
+.nowrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Remove the old td:last-child rule */
+/* td:last-child {
+    white-space: nowrap;
+} */
+
 
 /* FOOTER */
 .index-footer {
@@ -517,6 +531,11 @@ td:last-child {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+.practice-only {
+    color: #666;
+    font-style: italic;
 }
 
 /* Responsive adjustments */

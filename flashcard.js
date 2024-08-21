@@ -44,28 +44,32 @@ async function initializeFlashcards(filename) {
         }
 
         container.innerHTML = `
-            <div class="flashcard-title">${title}</div>
+    <div class="flashcard-title">${title}</div>
+    ${requiredPercentage > 0 ? `
         <div id="mode-tabs">
             <button id="practiceMode" class="tab active">Practice</button>
             <button id="testMode" class="tab">Test</button>
         </div>
-        <div id="timer" style="display:none;">Time: <span id="time">0</span>s</div>
-        <div id="card-container">
-            <div id="card"></div>
-        </div>
-        <div id="practiceControls">
-            <p id="practiceInstructions">
-                Tap to flip, then tap on right for correct or on left for incorrect.<br>
-                Keyboard: Spacebar to flip/mark correct, Backspace to mark incorrect.
-            </p>
-        </div>
-            <div id="testControls" style="display:none;">
-                <button id="startTest" class="button">Start Test</button>
-                <div id="activeTest" style="display:none;">
-                    <input type="text" id="input" placeholder="Enter your answer">
-                    <button id="submit">Submit</button>
-                </div>
+    ` : ''}
+    <div id="timer" style="display:none;">Time: <span id="time">0</span>s</div>
+    <div id="card-container">
+        <div id="card"></div>
+    </div>
+    <div id="practiceControls">
+        <p id="practiceInstructions">
+            Tap to flip, then tap on right for correct or on left for incorrect.<br>
+            Keyboard: Spacebar to flip/mark correct, Backspace to mark incorrect.
+        </p>
+    </div>
+    ${requiredPercentage > 0 ? `
+        <div id="testControls" style="display:none;">
+            <button id="startTest" class="button">Start Test</button>
+            <div id="activeTest" style="display:none;">
+                <input type="text" id="input" placeholder="Enter your answer">
+                <button id="submit">Submit</button>
             </div>
+        </div>
+    ` : ''}
             <div id="stats"></div>
             <div id="finalResult" style="display:none;">
                 <h2>Final Result</h2>
@@ -153,6 +157,7 @@ async function checkHighScoresExist(filename) {
 }
 
 // Fetch and parse card set
+// Update the fetchCardSet function to parse the requiredPercentage
 async function fetchCardSet(filename) {
     const response = await fetch(`cards/${filename}`);
     if (!response.ok) throw new Error('Failed to fetch card set');
@@ -166,7 +171,7 @@ function parseCardSet(content) {
     const lines = content.split('\n').filter(line => line.trim() !== '');
     const title = lines.shift();
     const description = lines.shift();
-    const requiredPercentage = parseFloat(lines.shift()) || 100; // Default to 100% if not specified
+    const requiredPercentage = parseFloat(lines.shift()) || 0; // Parse as float, default to 0 if not a valid number
     const cards = lines.map(line => {
         const [front, back] = line.split('\t');
         return [front.trim(), back.trim()];
@@ -670,6 +675,10 @@ function updateStats() {
 
 // Switch mode
 function switchMode(mode) {
+    if (requiredPercentage === 0 && mode === 'test') {
+        // console.log('Test mode is not available for this card set');
+        return;
+    }
     testMode = mode === 'test';
     reviewMode = false;
 
@@ -880,7 +889,7 @@ async function showIndex() {
     // Clear any intervals that might be running
     clearTimer();
 
-    // Fetch and display card sets
+ // Fetch and display card sets
     try {
         const cardSets = await fetchAllCardSets();
         const container = document.getElementById('container');
@@ -900,7 +909,9 @@ async function showIndex() {
                         <div class="card-set-description">${set.description}</div>
                         <div class="card-set-actions">
                             <span class="card-count">Items: ${set.cardCount}</span>
-                            <span class="required-percentage">Minimum Pass: ${set.requiredPercentage}%</span>
+                            ${set.requiredPercentage > 0 
+                                ? `<span class="required-percentage">Minimum Pass: ${set.requiredPercentage}%</span>`
+                                : '<span class="practice-only">Practice Only</span>'}
                             <a href="#list/${set.filename}">Browse List</a>  
                             <a href="cards/${set.filename}" download>Download</a>
                             ${set.hasHighScores ? `<a href="#" class="high-scores-toggle" data-filename="${baseFilename}">High Scores</a>` : ''}
@@ -935,16 +946,20 @@ async function showIndex() {
 async function showList(filename) {
     const { title, description, cards } = await fetchCardSet(filename);
     const container = document.getElementById('container');
+    
+    const frontClass = gameOptions.ListFrontWrap ? 'wrap' : 'nowrap';
+    const backClass = gameOptions.ListBackWrap ? 'wrap' : 'nowrap';
+    
     container.innerHTML = `
         <h2>${title}</h2>
         <p>${description}</p>
         <table>
             <tr>
-                <th>Front</th>
-                <th>Back</th>
+                <th class="${frontClass}">Front</th>
+                <th class="${backClass}">Back</th>
             </tr>
             ${cards.map(([front, back]) => `
-                <tr><td>${front}</td><td>${back}</td></tr>
+                <tr><td class="${frontClass}">${front}</td><td class="${backClass}">${back}</td></tr>
             `).join('')}
         </table>
         <div class="bottom-buttons">
@@ -953,6 +968,7 @@ async function showList(filename) {
         </div>
     `;
 }
+
 
 /* HIGH SCORES HANDLING */
 
