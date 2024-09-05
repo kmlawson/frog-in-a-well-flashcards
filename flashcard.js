@@ -26,6 +26,7 @@ let stats = {
     streak: 0
 };
 
+
 // Initialize flashcards
 async function initializeFlashcards(filename) {
     try {
@@ -1033,10 +1034,10 @@ function initializeEventListeners() {
     const card = document.getElementById('card');
     if (card) {
         // Use touchend for mobile devices
-        card.addEventListener('touchend', (e) => {
-            e.preventDefault(); // Prevent default touch behavior
-            handleCardClick(e);
-        });
+        // card.addEventListener('touchend', (e) => {
+        //    e.preventDefault(); // Prevent default touch behavior
+        //    handleCardClick(e);
+        // });
 
         // Use click for desktop devices
         card.addEventListener('click', handleCardClick);
@@ -1058,6 +1059,7 @@ function initializeEventListeners() {
         if (e.target.id === 'startOver') startOver();
         if (e.target.id === 'reviewIncorrect') reviewIncorrect();
     });
+
 
     const input = document.getElementById('input');
     if (input) {

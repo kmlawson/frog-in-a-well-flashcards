@@ -1,5 +1,5 @@
 China Timeline 1830s-1989
-A general purpose list of events related to modern Chinese history from late Qing to Tian'anmen. Supplemental timelines do not duplicated events listed here. Version 1.1. Last Updated: 2024.7.27
+A general purpose list of events related to modern Chinese history from late Qing to Tian'anmen. Supplemental timelines do not duplicated events listed here. Version 1.2. Last Updated: 2024.9.04
 100%
 (First) Opium War	1839-1842
 Sino-British Treaty of Nanjing; beginning of unequal treaties	1843
@@ -10,7 +10,7 @@ Taiwan Becomes a Colony of Japan	1895, Apr
 Boxer Rebellion, occupation of north China by foreign forces	1900
 Sun Yat-sen founds Revolutionary Alliance (Tongmenghui)	1905
 Korea is Annexed by Japan	1910, Aug
-The Xinhai Revolution, fall of the Qing	1911, Oct
+The Xinhai Revolution, leading to fall of the Qing	1911, Oct
 Severely fragmented power in China (Warlord rule)	1911-1928
 Japan Issues the Twenty-One Demands	1915, Jan
 The May Fourth Movement	1919
@@ -33,12 +33,12 @@ Fall of Nanjing to Japan and the Nanjing Massacre	1937, Dec
 Chiang Kai-shek blows up the Yellow River dikes leading to mass death through flooding and starvation	1938, Jun
 Yan'an Rectification Movement	1942-5
 Japanese surrender and Japanese emperor's radio announcement	1945, Aug 15
-Civil War between the CCP and GMD	1945-1949
+2nd Civil War between the CCP and GMD	1945-1949
 2.28 Incident and GMD repression in Taiwan	1947, Feb
 Communist Land Reform Campaign	1947-1952
 The Proclamation of the People's Republic	1949, Oct
 New Marriage Law pronounced	1950, Apr
-CCP invasion of Tibet	1950, Oct
+PLA invasion of Tibet	1950, Oct
 Campaign to Suppress Counterrevolutionaries (Zhenfan)	1950-1953
 China participates in the Korean War	1950-1953
 Three-anti and Five-anti campaigns in the cities	1951-2
