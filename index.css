@@ -725,15 +725,26 @@ td, th {
 @media screen and (max-width: 600px) {
     body {
         font-size: 20px;
+        height: 100vh;
+        overflow: hidden;
     }
 
     #container {
-        padding: 15px;
+        padding: 10px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #card-container {
+        flex: 1;
+        margin: 5px 0;
     }
 
     #card {
-        height: 150px;
+        height: 100%;
         font-size: 20px;
+        min-height: unset;
     }
 
     .tab, #submit, .bottom-buttons .button {
@@ -756,20 +767,33 @@ td, th {
 
     #stats {
         font-size: 12px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     #practiceInstructions {
         font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 0 10px;
     }
 
     .bottom-buttons {
         flex-direction: column;
         align-items: center;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
     }
 
     .bottom-buttons .button {
-        margin: 5px 0;
+        margin: 3px 0;
         width: 80%;
+    }
+
+    .button-container {
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     #finalResult {
@@ -784,20 +808,42 @@ td, th {
     #resultTable th, #resultTable td {
         padding: 5px;
     }
+
+    /* Flashcard title */
+    .flashcard-title {
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    /* Mode tabs */
+    #mode-tabs {
+        margin-bottom: 5px;
+    }
 }
 
 @media screen and (max-width: 480px) {
     body {
         font-size: 14px;
+        height: 100vh;
+        overflow: hidden;
     }
 
     #container {
-        padding: 10px;
+        padding: 8px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #card-container {
+        flex: 1;
+        margin: 3px 0;
     }
 
     #card {
-        height: 130px;
+        height: 100%;
         font-size: 18px;
+        min-height: unset;
     }
 
     .tab, #submit, .bottom-buttons .button {
@@ -812,10 +858,41 @@ td, th {
 
     #stats {
         font-size: 11px;
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 
     #practiceInstructions {
         font-size: 11px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        padding: 0 8px;
+    }
+
+    .bottom-buttons {
+        padding: 8px;
+        margin-top: 3px;
+        margin-bottom: 8px;
+    }
+
+    .bottom-buttons .button {
+        margin: 2px 0;
+    }
+
+    .button-container {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    /* Flashcard title */
+    .flashcard-title {
+        margin-bottom: 3px;
+        font-size: 11px;
+    }
+
+    /* Mode tabs */
+    #mode-tabs {
+        margin-bottom: 3px;
     }
 }
 

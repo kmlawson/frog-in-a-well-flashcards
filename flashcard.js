@@ -175,7 +175,41 @@ function parseCardSet(content) {
     const requiredPercentage = parseFloat(lines.shift()) || 0; // Parse as float, default to 0 if not a valid number
     const cards = lines.map(line => {
         const [front, back] = line.split('\t');
-        return [front.trim(), back.trim()];
+        const frontText = front.trim();
+        const backText = back.trim();
+        
+        // Parse alternatives from brackets
+        let displayAnswer = backText;
+        let acceptableAnswers = [];
+        
+        // Check for bracketed alternatives
+        const bracketMatch = backText.match(/^([^[]+)\s*\[([^\]]+)\]$/);
+        if (bracketMatch) {
+            displayAnswer = bracketMatch[1].trim();
+            const alternativesStr = bracketMatch[2];
+            // Split by pipe for multiple alternatives
+            const alternatives = alternativesStr.split('|').map(alt => alt.trim());
+            acceptableAnswers = [displayAnswer, ...alternatives];
+        } else {
+            acceptableAnswers = [displayAnswer];
+        }
+        
+        // If the primary answer contains a month (e.g., "1895, Apr"), also accept year only
+        if (displayAnswer.match(/^\d{4},\s+\w+$/)) {
+            const yearOnly = displayAnswer.split(',')[0].trim();
+            if (!acceptableAnswers.includes(yearOnly)) {
+                acceptableAnswers.push(yearOnly);
+            }
+        }
+        
+        return {
+            front: frontText,
+            displayAnswer: displayAnswer,
+            acceptableAnswers: acceptableAnswers,
+            // Keep backward compatibility
+            0: frontText,
+            1: displayAnswer
+        };
     });
     return { title, description, requiredPercentage, cards };
 }
@@ -263,8 +297,9 @@ function startTest() {
 function updateTestCard() {
     if (testIndex < testCards.length) {
         currentCard = testCards[testIndex];
-        document.getElementById('card').innerHTML = `<div class="card-content">${currentCard[0]}</div>`;
-        currentCardAnswer = currentCard[1];
+        const front = currentCard.front || currentCard[0];
+        document.getElementById('card').innerHTML = `<div class="card-content">${front}</div>`;
+        currentCardAnswer = currentCard.displayAnswer || currentCard[1];
         document.getElementById('input').value = '';
         document.getElementById('card-container').style.display = 'block';
         document.getElementById('input').focus();
@@ -277,15 +312,19 @@ function updateTestCard() {
 // Submit test answer
 function submitTestAnswer() {
     const userAnswer = document.getElementById('input').value.trim();
-    const isCorrect = checkAnswer(userAnswer);
+    const checkResult = checkAnswer(userAnswer);
+    const front = currentCard.front || currentCard[0];
+    
     testResults.push({
-        question: currentCard[0],
-        correctAnswer: currentCardAnswer,
+        question: front,
+        correctAnswer: checkResult.primaryAnswer,
         userAnswer: userAnswer,
-        isCorrect: isCorrect
+        isCorrect: checkResult.isCorrect,
+        acceptanceType: checkResult.acceptanceType,
+        matchedAnswer: checkResult.matchedAnswer
     });
 
-    if (isCorrect) {
+    if (checkResult.isCorrect) {
         stats.correct++;
         currentStreak++;
         stats.streak = currentStreak;
@@ -301,19 +340,39 @@ function submitTestAnswer() {
     stats.remaining--;
     updateStats();
 
-    if (isCorrect) {
-        setTimeout(() => {
-            testIndex++;
-            if (testIndex >= testCards.length) {
-                endTest();
-            } else {
-                updateTestCard();
-            }
-        }, 200); // Delay to allow green flash to be visible
+    const cardElement = document.getElementById('card');
+
+    if (checkResult.isCorrect) {
+        if (checkResult.acceptanceType === 'alternative') {
+            // Show that alternative was accepted
+            cardElement.innerHTML = `
+                <div class="card-content" style="color: #4CAF50;">
+                    ✓ ${checkResult.userAnswer}
+                    <br><small style="margin-top: 5px; display: block;">Alternate years accepted</small>
+                    <br><small style="margin-top: 5px; display: block;">Standard: ${checkResult.primaryAnswer}</small>
+                </div>`;
+            setTimeout(() => {
+                testIndex++;
+                if (testIndex >= testCards.length) {
+                    endTest();
+                } else {
+                    updateTestCard();
+                }
+            }, 2500); // Longer delay to show alternative feedback
+        } else {
+            // Normal correct answer
+            setTimeout(() => {
+                testIndex++;
+                if (testIndex >= testCards.length) {
+                    endTest();
+                } else {
+                    updateTestCard();
+                }
+            }, 200); // Delay to allow green flash to be visible
+        }
     } else {
         // Show correct answer briefly
-        const cardElement = document.getElementById('card');
-        cardElement.innerHTML = `<div class="card-content">${currentCardAnswer}</div>`;
+        cardElement.innerHTML = `<div class="card-content">${checkResult.primaryAnswer}</div>`;
         setTimeout(() => {
             testIndex++;
             if (testIndex >= testCards.length) {
@@ -321,7 +380,7 @@ function submitTestAnswer() {
             } else {
                 updateTestCard();
             }
-        }, 1000); // Show correct answer for 1 second
+        }, 1500); // Show correct answer for 1.5 seconds
     }
 }
 
@@ -364,12 +423,16 @@ function displayFinalResults() {
         </tr>
     `;
     testResults.forEach(result => {
+        let resultText = result.isCorrect ? 'Correct' : 'Incorrect';
+        if (result.isCorrect && result.acceptanceType === 'alternative') {
+            resultText = 'Correct<br><small style="color: #666;">Alternate years accepted</small>';
+        }
         tableHTML += `
             <tr>
                 <td>${result.question}</td>
                 <td>${result.correctAnswer}</td>
                 <td>${result.userAnswer}</td>
-                <td>${result.isCorrect ? 'Correct' : 'Incorrect'}</td>
+                <td>${resultText}</td>
             </tr>
         `;
     });
@@ -522,8 +585,8 @@ function updateCard() {
     }
 
     showingFront = true;
-    cardElement.innerHTML = `<div class="card-content">${currentCard[0]}</div>`;
-    currentCardAnswer = currentCard[1];
+    cardElement.innerHTML = `<div class="card-content">${currentCard.front || currentCard[0]}</div>`;
+    currentCardAnswer = currentCard.displayAnswer || currentCard[1];
 
     const inputElement = document.getElementById('input');
     if (inputElement) inputElement.value = '';
@@ -535,7 +598,9 @@ function updateCard() {
 function flipCard() {
     if (testMode || reviewMode) return;
     showingFront = !showingFront;
-    document.getElementById('card').innerHTML = `<div class="card-content">${showingFront ? currentCard[0] : currentCard[1]}</div>`;
+    const front = currentCard.front || currentCard[0];
+    const back = currentCard.displayAnswer || currentCard[1];
+    document.getElementById('card').innerHTML = `<div class="card-content">${showingFront ? front : back}</div>`;
 }
 
 // Handle card click
@@ -567,8 +632,13 @@ function handleCardClick(event) {
 
 // Check answer
 function checkAnswer(userAnswer) {
-    const correctAnswer = currentCardAnswer.trim().toLowerCase();
-    userAnswer = userAnswer.trim().toLowerCase();
+    userAnswer = userAnswer.trim();
+    const userAnswerLower = userAnswer.toLowerCase();
+    
+    // Get acceptable answers from current card
+    const acceptableAnswers = currentCard.acceptableAnswers || [currentCardAnswer];
+    const primaryAnswer = currentCard.displayAnswer || currentCardAnswer;
+    const primaryAnswerLower = primaryAnswer.trim().toLowerCase();
 
     // Function to extract year from a string
     function extractYear(str) {
@@ -590,27 +660,66 @@ function checkAnswer(userAnswer) {
         return null;
     }
 
-    // Check for exact match first
-    if (userAnswer === correctAnswer) {
-        return true;
+    // Check against all acceptable answers
+    for (let i = 0; i < acceptableAnswers.length; i++) {
+        const acceptable = acceptableAnswers[i].trim();
+        const acceptableLower = acceptable.toLowerCase();
+        
+        // Check for exact match first
+        if (userAnswerLower === acceptableLower) {
+            const isPrimary = (i === 0);
+            const isMonthOmitted = primaryAnswer.includes(',') && !userAnswer.includes(',') && 
+                                 extractYear(primaryAnswer) === userAnswer;
+            
+            return {
+                isCorrect: true,
+                acceptanceType: isPrimary ? 'exact' : (isMonthOmitted ? 'month-omitted' : 'alternative'),
+                userAnswer: userAnswer,
+                primaryAnswer: primaryAnswer,
+                matchedAnswer: acceptable
+            };
+        }
+
+        // Check for single year match (when answer has month but user provides just year)
+        const acceptableYear = extractYear(acceptable);
+        if (acceptableYear && !acceptable.includes('-') && !acceptableLower.includes('-')) {
+            if (userAnswerLower.includes(acceptableYear)) {
+                const isMonthOmitted = acceptable.includes(',') && !userAnswer.includes(',');
+                return {
+                    isCorrect: true,
+                    acceptanceType: isMonthOmitted ? 'month-omitted' : (i === 0 ? 'exact' : 'alternative'),
+                    userAnswer: userAnswer,
+                    primaryAnswer: primaryAnswer,
+                    matchedAnswer: acceptable
+                };
+            }
+        }
+
+        // Check for year range match
+        const acceptableRange = normalizeYearRange(acceptableLower);
+        const userRange = normalizeYearRange(userAnswerLower);
+
+        if (acceptableRange && userRange) {
+            if (acceptableRange[0] === userRange[0] && acceptableRange[1] === userRange[1]) {
+                return {
+                    isCorrect: true,
+                    acceptanceType: i === 0 ? 'exact' : 'alternative',
+                    userAnswer: userAnswer,
+                    primaryAnswer: primaryAnswer,
+                    matchedAnswer: acceptable
+                };
+            }
+        }
     }
 
-    // Check for single year match
-    const correctYear = extractYear(correctAnswer);
-    if (correctYear && !correctAnswer.includes('-')) {
-        return userAnswer.includes(correctYear);
-    }
-
-    // Check for year range match
-    const correctRange = normalizeYearRange(correctAnswer);
-    const userRange = normalizeYearRange(userAnswer);
-
-    if (correctRange && userRange) {
-        return correctRange[0] === userRange[0] && correctRange[1] === userRange[1];
-    }
-
-    // If we've reached this point, the answers don't match
-    return false;
+    // If we've reached this point, the answer doesn't match
+    return {
+        isCorrect: false,
+        acceptanceType: null,
+        userAnswer: userAnswer,
+        primaryAnswer: primaryAnswer,
+        matchedAnswer: null
+    };
 }
 
 // Handle correct answer
@@ -793,12 +902,21 @@ function startReview() {
 function updateReviewCard() {
     if (reviewIndex < testResults.length) {
         const result = testResults[reviewIndex];
+        let reviewResultText = result.isCorrect ? 'Correct' : 'Incorrect';
+        let additionalInfo = '';
+        
+        if (result.isCorrect && result.acceptanceType === 'alternative') {
+            reviewResultText = 'Correct (alternative accepted)';
+            additionalInfo = '<div class="review-alternative">Your answer accepted as alternate years</div>';
+        }
+        
         document.getElementById('card').innerHTML = `
             <div class="card-content">
                 <div class="review-question">${result.question}</div>
-                <div class="review-correct-answer">Correct Answer: ${result.correctAnswer}</div>
+                <div class="review-correct-answer">Standard Answer: ${result.correctAnswer}</div>
                 <div class="review-user-answer">Your Answer: ${result.userAnswer}</div>
-                <div class="review-result">${result.isCorrect ? 'Correct' : 'Incorrect'}</div>
+                <div class="review-result">${reviewResultText}</div>
+                ${additionalInfo}
             </div>
         `;
     } else {
@@ -959,9 +1077,11 @@ async function showList(filename) {
                 <th class="${frontClass}">Front</th>
                 <th class="${backClass}">Back</th>
             </tr>
-            ${cards.map(([front, back]) => `
-                <tr><td class="${frontClass}">${front}</td><td class="${backClass}">${back}</td></tr>
-            `).join('')}
+            ${cards.map((card) => {
+                const front = card.front || card[0];
+                const back = card.displayAnswer || card[1];
+                return `<tr><td class="${frontClass}">${front}</td><td class="${backClass}">${back}</td></tr>`;
+            }).join('')}
         </table>
         <div class="bottom-buttons">
             <a href="#index" class="button">Return to Index</a>
@@ -1052,8 +1172,6 @@ function initializeEventListeners() {
             e.preventDefault();
             if (testMode) {
                 submitTestAnswer();
-            } else {
-                submitAnswer();
             }
         }
         if (e.target.id === 'startOver') startOver();
@@ -1068,8 +1186,6 @@ function initializeEventListeners() {
                 e.preventDefault();
                 if (testMode) {
                     submitTestAnswer();
-                } else {
-                    submitAnswer();
                 }
             }
         });

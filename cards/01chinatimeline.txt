@@ -1,30 +1,30 @@
 China Timeline 1830s-1989
-A general purpose list of events related to modern Chinese history from late Qing to Tian'anmen. Supplemental timelines do not duplicated events listed here. Version 1.2. Last Updated: 2024.9.04
+A general purpose list of events related to modern Chinese history from late Qing to Tian'anmen. Supplemental timelines do not duplicated events listed here. Version 1.3. Last Updated: 2025.8.23
 100%
 (First) Opium War	1839-1842
-Sino-British Treaty of Nanjing; beginning of unequal treaties	1843
-Taiping Rebellion	1850-1864
-Nian Rebellion	1851-1868
+Sino-British Treaty of Nanjing; beginning of unequal treaties	1842
+Taiping Rebellion	1850-1864 [1851-1864]
+Nian Rebellion	1851-1868 [1853-1868]
 The (First) Sino-Japanese War	1894-1895
 Taiwan Becomes a Colony of Japan	1895, Apr
 Boxer Rebellion, occupation of north China by foreign forces	1900
 Sun Yat-sen founds Revolutionary Alliance (Tongmenghui)	1905
 Korea is Annexed by Japan	1910, Aug
 The Xinhai Revolution, leading to fall of the Qing	1911, Oct
-Severely fragmented power in China (Warlord rule)	1911-1928
+Severely fragmented power in China (Warlord rule)	1911-1928 [1911-1927|1916-1927|1912-1927|1912-1928]
 Japan Issues the Twenty-One Demands	1915, Jan
 The May Fourth Movement	1919
 Founding of the Chinese Communist Party, First Congress in Shanghai	1921, Jul
 First United Front Between the Nationalist Party (GMD) and the Communist Party (CCP)	1924-7
 The Death of Sun Yat-sen, rise of Chiang Kai-shek	1925, Mar
 May 30th Movement	1925
-The Northern Expedition	1926-7
+The Northern Expedition	1926-7 [1926-1928]
 Mao writes his Hunan Report on the peasant movement	1927
 The White Terror, anti-Communist purge begins in Shanghai after city is taken by GMD	1927, Apr
 The "Nanjing Decade"	1927-1937
 Chiang Kai-shek "encirclement" campaigns against Communists in Jiangxi	1930-4
 The Japanese Invasion of Manchuria	1931, Sep
-Jiangxi Soviet formally established with capital at Ruijin, Mao Zedong appointed chairman	1931, Nov
+Jiangxi Soviet formally established with capital at Ruijin	1931, Nov
 CCP The Long March	1934-1935
 The Xi'an Incident	1936, Dec
 The Marco Polo Bridge Incident	1937, Jul
@@ -33,9 +33,9 @@ Fall of Nanjing to Japan and the Nanjing Massacre	1937, Dec
 Chiang Kai-shek blows up the Yellow River dikes leading to mass death through flooding and starvation	1938, Jun
 Yan'an Rectification Movement	1942-5
 Japanese surrender and Japanese emperor's radio announcement	1945, Aug 15
-2nd Civil War between the CCP and GMD	1945-1949
+2nd Civil War between the CCP and GMD	1945-1949 [1946-1949|1945-1950|1946-1950]
 2.28 Incident and GMD repression in Taiwan	1947, Feb
-Communist Land Reform Campaign	1947-1952
+Communist Land Reform Campaign	1946-1952 [1945-1952|1947-1952|1946-1948|1946-52]
 The Proclamation of the People's Republic	1949, Oct
 New Marriage Law pronounced	1950, Apr
 PLA invasion of Tibet	1950, Oct
@@ -43,29 +43,29 @@ Campaign to Suppress Counterrevolutionaries (Zhenfan)	1950-1953
 China participates in the Korean War	1950-1953
 Three-anti and Five-anti campaigns in the cities	1951-2
 Hundred Flowers Movement	1956-1957
-Anti-Rightist Campaign	1957-1959
+Anti-Rightist Campaign	1957-1958 [1957-1959]
 Great Leap Forward Pronounced	1958
 Launch of the Four Pests Campaign	1958
 Tibetan revolt, Dalai Lama flees Tibet	1959
-The Great Leap Famine	1959-1962
+The Great Leap Famine	1959-1961 [1959-1962|1959-1960]
 Lushan Conference; Peng Dehuai ousted, replaced by Lin Biao	1959
 Sino-Soviet split widens	1960
-Rectification and Socialist Education campaign	1962, Aug
+Rectification and Socialist Education Movement ("four cleans")	1962-1966 [1963-1966]
 Learn from Comrade Lei Feng movement	1963
 First nuclear weapon tested in China	1964
 The Cultural Revolution Period	1966-1976
 Down to the Countryside movement	1968-1978
 Revolutionary committees are most active	1967-1968
-Cultural Revolution proclaimed success, Liu Shaoqi dismissed	1969, Apr
+Cultural Revolution proclaimed success, Liu Shaoqi dies	1969
 Soviet and Chinese troops clash	1969
 UN recognises the PRC as the government of China	1971, Oct
 Lin Biao incident and death	1971, Sep
 Nixon visit to China and signs Shanghai Communiqué	1972, Feb
 Criticize Lin and Confucius movement	1973-1975
-Chiang Kai-shek dies in Taiwan	1975, Jul
+Chiang Kai-shek dies in Taiwan	1975, Apr
 Death of Mao, Zhou Enlai and Zhu De die earlier in the year	1976, Sep
 The "Gang of Four" are arrested	1976, Oct
-5th National People's Congress adopts Four Modernizations plan	1978, Feb
+Deng's proposed reform policies approved ("Four Modernizations")	1978
 Posters appear on democracy wall	1978
 Wei Jingsheng's "Fifth Modernization" poster	1978, Dec
 Crack down on democracy movement, Wei Jingsheng among those arrested	1979
