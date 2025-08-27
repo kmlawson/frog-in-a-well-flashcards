@@ -1184,6 +1184,12 @@ function startSortGame(cardCount) {
     shuffleArray(shuffled);
     sortCards = shuffled.slice(0, cardCount);
     
+    // Clear both card containers before starting
+    const unsortedContainer = document.getElementById('unsortedCards');
+    const sortedContainer = document.getElementById('sortedCards');
+    if (unsortedContainer) unsortedContainer.innerHTML = '';
+    if (sortedContainer) sortedContainer.innerHTML = '';
+    
     // Start timer
     startSortTimer();
     
