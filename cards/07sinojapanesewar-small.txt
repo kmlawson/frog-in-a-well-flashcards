@@ -1,6 +1,7 @@
 Sino-Japanese War Pack - Small
-A supplemental timeline on the second Sino-Japanese War and events leading up to it. Version: 1.1. Last Updated: 2024.7.27
+A supplemental timeline on the second Sino-Japanese War and events leading up to it. Version: 1.2. Last Updated: 2025.8.24
 100%
+China
 Jinan incident with Japanese forces in Shandong	1928, May
 Zhang Zuolin assassinated by Japanese	1928, Jun
 Japanese attack and occupation of parts of Shanghai after staged attack on Japanese monks and civilians	1932
@@ -30,8 +31,8 @@ Wuhan and Guangzhou fall to Japanese, Chiang moves HQ to Chongqing	1938, Oct
 Konoe Fumimaro "Three Principles" statement for settlement of the war	1938, Dec
 The Burma Road is completed	1938
 Soviet-Japanese clashes, Nomonhan Incident	1939
-Burma road opens to traffic	1939, Mar
-Mengjiang government in Inner Mongolia founded with Japanese support	1939
+Burma road opens to traffic	1939
+Mengjiang government in Inner Mongolia proclaimed with Japanese support	1939
 Wang Jingwei declares new "Reorganized" Nationalist government at Nanjing	1940, Mar
 Communist Hundred Regiments Offensive begins	1940, Aug
 Declaration of the Co-Prosperity Sphere under Konoe Fumimaro	1940, Aug

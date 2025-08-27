@@ -1,6 +1,7 @@
 Chinese Republic from 1911-1937 Pack - Small
-A supplemental timeline for the Chinese republic up to the Japanese invasion. Version: 1.2. Last Updated: 2024.9.04
+A supplemental timeline for the Chinese republic up to the Japanese invasion. Version: 1.3. Last Updated: 2025.8.24
 100%
+China
 Forces loyal to Dalai Lama defeat Chinese forces, de-facto independence for Tibet until 1951	1911
 Last Qing emperor abdicates, Sun Yatsen resigns and Yuan Shikai becomes president	1912, Feb
 Nationalist party is founded out of merger of Tongmenghui and smaller parties	1912, Aug
@@ -25,13 +26,13 @@ Establishment of people's republic of Mongolia, already under provisional party 
 Sino-Soviet Agreement with Chinese Republic	1924, May
 Second Zhili-Fengtian War, Wu Peifu's Zhili forces defeated by Zhang Zuolin's Fengtian clique after betrayal of warlord Feng Yuxiang	1924
 Warlord Feng Yuxiang takes control of Beijing following his betrayal of the Zhili clique	1924, Oct
-Zhili and Fengtian cliques ally to fight war against Feng Yuxiang and capture Beijing	1925-6
+Zhili and Fengtian briefly join to fight war against Feng Yuxiang and capture Beijing	1925-6
 Second Congress of the Nationalist Party in Guangzhou	1926
 Nanjing Incident when foreigners were killed in the city by Northern Expedition forces	1927, Mar
 Shanghai General Labor Union under CCP direction launch uprising	1927, Mar
 Autumn Harvest Uprisings	1927, Sep
 CCP Guangzhou Commune rising	1927, Dec
-Chiang Kai-shek resignation and return to power	1927
+Chiang Kai-shek resignation (soon returns to power)	1927
 Northern Expedition takes Jinan, sparks Japanese response	1928, Apr
 Ding Ling's "The Diary of Miss Sophia"	1928
 Jinan incident with Japanese forces in Shandong	1928, May

@@ -1,6 +1,7 @@
 Rise of the CCP and the Chinese Civil War Pack - Small
-A supplemental timeline covering the rise of the Communist Party in China and the Civil War period. Version: 1.1. Last Updated: 2024.7.27
+A supplemental timeline covering the rise of the Communist Party in China and the Civil War period. Version: 1.2. Last Updated: 2025.8.24
 100%
+China
 Li Dazhao's group "Marxist Research Society" discusses Marx's "Capital"	1918
 Comintern agents Grigori Voitinsky and Yang Mingzhai arrive in China to investigate conditions	1920
 Complete translation of Communist Manifesto published in Chinese	1920
@@ -46,7 +47,7 @@ Chiang Kai-shek announces retirement, replaced by Li Zongren	1949, Jan
 PLA cross the Yangzi river	1949, Mar
 PLA takes Nanjing	1949, Apr 23
 Mao's announces China will "lean to one side" in foreign policy	1949, Jun
-US forces withdraw from naval base in Qingdao, Communist forces attack city	1949, May
+US forces withdraw from naval base in Qingdao, Communist forces soon attack city	1949, May
 Shanghai falls to PLA	1949, May 25
 US orders 7th Fleet to block any PLA invasion of Taiwan	1950, Jun
 First Taiwan Straits Crisis	1954-5

@@ -100,9 +100,23 @@ a:hover {
     align-items: center;
     text-align: center;
     padding: 20px;
+    overflow: auto;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 /* Index View Styles */
+.category-section {
+    margin-bottom: 2.5em;
+}
+
+.category-section h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+
 .card-set-list {
     list-style-type: none;
     padding: 0;
@@ -198,6 +212,11 @@ a:hover {
     margin-top: 20px;
 }
 
+/* Hide number pad on desktop */
+.number-pad {
+    display: none;
+}
+
 #correct, #incorrect, #submit {
     font-size: 16px;
     padding: 10px 20px;
@@ -274,6 +293,25 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+}
+
+/* Sources section styling */
+.sources-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.sources-section h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.source-item {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    color: #555;
 }
 
 tr {
@@ -679,6 +717,315 @@ td, th {
     }
 }
 
+/* Sort Game Styles */
+.card-count-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card-count-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.sort-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px 10px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sort-button:hover {
+    background-color: #c8e6c9;
+}
+
+.sort-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: move;
+    transition: background-color 0.2s, transform 0.2s;
+    user-select: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: #333; /* Ensure dark text in light mode */
+}
+
+.sort-card:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.sort-card.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+}
+
+.sort-card-content {
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+#sortGameContainer {
+    /* Responsive height based on viewport */
+    height: calc(100vh - 250px);
+    min-height: 300px;
+    /* No max-height limit - let it use full window if available */
+}
+
+#leftCards, #rightCards {
+    border-radius: 8px;
+    background-color: #fafafa;
+    height: 100%;
+    overflow-y: auto;
+    
+    /* Visible scrollbars for better usability */
+    scrollbar-width: thin; /* Firefox - thinner on desktop */
+    scrollbar-color: #ccc transparent; /* Firefox */
+}
+
+/* Webkit scrollbar styling for desktop */
+#leftCards::-webkit-scrollbar, #rightCards::-webkit-scrollbar {
+    width: 8px; /* Narrower on desktop */
+}
+
+#leftCards::-webkit-scrollbar-track, #rightCards::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+#leftCards::-webkit-scrollbar-thumb, #rightCards::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background-clip: content-box;
+}
+
+#leftCards::-webkit-scrollbar-thumb:hover, #rightCards::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+}
+
+#leftCards h3, #rightCards h3 {
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+    margin: 0 0 10px 0;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 6px 6px 0 0;
+    margin: -10px -10px 10px -10px;
+}
+
+.drop-zone-active {
+    background-color: #e8f5e9 !important;
+    border-color: #4CAF50 !important;
+}
+
+/* Insertion indicator */
+.insertion-indicator {
+    height: 4px;
+    margin: 2px 0;
+    pointer-events: none;
+}
+
+.insertion-line {
+    width: 100%;
+    height: 2px;
+    background-color: #4CAF50;
+    border-radius: 1px;
+    position: relative;
+    animation: pulse 1s ease-in-out infinite alternate;
+}
+
+.insertion-line::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 6px;
+    height: 6px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+}
+
+.insertion-line::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 6px;
+    height: 6px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.6;
+        transform: scaleY(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1.2);
+    }
+}
+
+/* Mobile responsive for sort game */
+@media screen and (max-width: 768px) {
+    #sortGameContainer {
+        flex-direction: row; /* Keep left/right split */
+        height: calc(100vh - 200px); /* Responsive height for mobile */
+        min-height: 250px;
+        gap: 0; /* Remove gap - columns will touch */
+    }
+    
+    #leftCards, #rightCards {
+        height: 100%; /* Fill container height */
+        margin-bottom: 10px;
+        padding: 5px; /* Reduce padding to make more room */
+        /* Ensure entire column area is scrollable */
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y; /* Allow vertical scrolling */
+    }
+    
+    /* Add a subtle separator between columns */
+    #leftCards {
+        border-right: 1px solid #ddd;
+    }
+    
+    .card-count-btn {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+    }
+    
+    .sort-card {
+        font-size: 10px; /* Smaller font for mobile */
+        padding: 6px;
+        margin: 3px 0;
+    }
+    
+    .sort-card-content {
+        font-size: 10px; /* Smaller font */
+        line-height: 1.2;
+    }
+    
+    /* Make section headers smaller on mobile */
+    #leftCards h3, #rightCards h3 {
+        font-size: 12px;
+        padding: 5px;
+        margin: -10px -10px 5px -10px;
+    }
+    
+    /* Make the inner containers fill the full column area */
+    #unsortedCards, #sortedCards {
+        min-height: 100%;
+        padding: 3px; /* Small padding for touch target */
+        /* Make entire container scrollable and touchable */
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Make scroll bars visible and easier to grab on mobile */
+    #leftCards, #rightCards {
+        /* Custom scrollbar for webkit browsers (iOS Safari, Chrome) */
+        scrollbar-width: thick; /* Firefox */
+        scrollbar-color: #888 transparent; /* Firefox */
+    }
+    
+    #leftCards::-webkit-scrollbar, #rightCards::-webkit-scrollbar {
+        width: 12px; /* Wider scrollbar */
+    }
+    
+    #leftCards::-webkit-scrollbar-track, #rightCards::-webkit-scrollbar-track {
+        background: transparent; 
+    }
+    
+    #leftCards::-webkit-scrollbar-thumb, #rightCards::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 6px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+    
+    #leftCards::-webkit-scrollbar-thumb:hover, #rightCards::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+    
+    /* Make insertion indicators more visible on mobile */
+    .insertion-indicator {
+        height: 8px; /* Larger height for easier touch targeting */
+        margin: 4px 0;
+    }
+    
+    .insertion-line {
+        height: 4px; /* Thicker line */
+        background-color: #4CAF50;
+        animation: pulse 1s ease-in-out infinite alternate;
+    }
+    
+    .insertion-line::before,
+    .insertion-line::after {
+        width: 8px; /* Larger dots */
+        height: 8px;
+        top: -2px; /* Adjust positioning */
+    }
+}
+
+/* Dark mode for sort game */
+@media (prefers-color-scheme: dark) {
+    .sort-card {
+        background-color: #2c2c2c;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+    
+    .sort-card:hover {
+        background-color: #333;
+    }
+    
+    #leftCards, #rightCards {
+        background-color: #1e1e1e;
+        border-color: #444;
+    }
+    
+    /* Dark mode separator */
+    #leftCards {
+        border-right-color: #444;
+    }
+    
+    #leftCards h3, #rightCards h3 {
+        background-color: #333;
+        color: #e0e0e0;
+    }
+    
+    .card-count-btn {
+        background-color: #1e3a5f;
+    }
+    
+    .card-count-btn:hover {
+        background-color: #2c5282;
+    }
+}
+
 /* Media Queries */
 @media screen and (max-width: 1024px) {
     #container {
@@ -726,25 +1073,158 @@ td, th {
     body {
         font-size: 20px;
         height: 100vh;
-        overflow: hidden;
+        height: 100svh; /* Small viewport height fallback */
+        height: 100dvh; /* Dynamic viewport height - excludes browser UI */
+        margin: 0;
+        padding: 0;
     }
 
     #container {
         padding: 10px;
+        padding-bottom: 20px; /* Extra padding for browser navigation */
         height: 100vh;
+        height: 100svh; /* Small viewport height fallback */  
+        height: 100dvh; /* Dynamic viewport height - excludes browser UI */
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
+    }
+    
+    /* Allow scrolling on Sort Game results page */
+    body.sort-results {
+        height: auto !important;
+        overflow: auto !important;
+        overflow-y: scroll !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    body.sort-results #container {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
     }
 
+    /* Header elements (title, tabs, timer) */
+    .flashcard-title, #mode-tabs, #timer {
+        flex-shrink: 0;
+    }
+
+    /* Card container takes remaining space */
     #card-container {
         flex: 1;
-        margin: 5px 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 200px;
+        margin: 5px 0 0 0;
     }
 
     #card {
-        height: 100%;
+        flex: 1;
         font-size: 20px;
-        min-height: unset;
+        min-height: 200px;
+        max-height: none;
+    }
+
+    /* Controls and stats above bottom buttons */
+    #practiceControls, #testControls, #stats, #finalResult, #reviewControls, .button-container, #sortControls {
+        flex-shrink: 0;
+        margin: 5px 0;
+    }
+    
+    /* Test mode specific adjustments */
+    #testControls {
+        margin: 0;
+    }
+    
+    #activeTest {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .number-pad {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 4px 0;
+    }
+    
+    .number-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        padding: 0 10px;
+    }
+    
+    .num-btn {
+        flex: 1;
+        max-width: 60px;
+        height: 48px;
+        font-size: 18px;
+        font-weight: bold;
+        border: 2px solid #4285f4;
+        background-color: #f8f9fa;
+        color: #333;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .num-btn:active {
+        background-color: #4285f4;
+        color: white;
+        transform: scale(0.95);
+    }
+    
+    .clear-btn {
+        background-color: #ea4335;
+        border-color: #ea4335;
+        color: white;
+        max-width: 90px;
+    }
+    
+    .clear-btn:active {
+        background-color: #d33b2c;
+    }
+    
+    .submit-btn {
+        background-color: #34a853;
+        border-color: #34a853;
+        color: white;
+        max-width: 90px;
+        font-weight: bold;
+    }
+    
+    .submit-btn:active {
+        background-color: #2d8f43;
+    }
+    
+    /* Special spacing for bottom row with Clear and Submit */
+    .number-row:last-child {
+        gap: 12px;
+    }
+    
+    #stats {
+        text-align: center;
+    }
+
+    /* Bottom buttons on same line and at bottom */
+    .bottom-buttons {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        margin-top: auto;
+        margin-bottom: 10px;
+        padding: 10px 0;
+    }
+    
+    .bottom-buttons .button {
+        flex: 1;
+        max-width: 150px;
+        text-align: center;
     }
 
     .tab, #submit, .bottom-buttons .button {
@@ -753,8 +1233,25 @@ td, th {
     }
 
     #input {
-        font-size: 14px;
+        font-size: 16px; /* Prevent zoom on focus */
         padding: 8px;
+    }
+    
+    /* When input is focused, adjust layout for keyboard */
+    #input:focus {
+        scroll-margin-top: 10px;
+    }
+    
+    /* Compact layout when virtual keyboard is likely present */
+    body:has(#input:focus) #card-container,
+    body.keyboard-active #card-container {
+        min-height: 120px;
+    }
+    
+    body:has(#input:focus) #card,
+    body.keyboard-active #card {
+        min-height: 120px;
+        font-size: 18px;
     }
 
     table {
@@ -778,18 +1275,10 @@ td, th {
         padding: 0 10px;
     }
 
-    .bottom-buttons {
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 10px;
+    .keyboard-instructions {
+        display: none;
     }
 
-    .bottom-buttons .button {
-        margin: 3px 0;
-        width: 80%;
-    }
 
     .button-container {
         margin-top: 5px;
@@ -825,25 +1314,158 @@ td, th {
     body {
         font-size: 14px;
         height: 100vh;
-        overflow: hidden;
+        height: 100svh; /* Small viewport height fallback */
+        height: 100dvh; /* Dynamic viewport height - excludes browser UI */
+        margin: 0;
+        padding: 0;
     }
 
     #container {
         padding: 8px;
+        padding-bottom: 20px; /* Extra padding for browser navigation */
         height: 100vh;
+        height: 100svh; /* Small viewport height fallback */
+        height: 100dvh; /* Dynamic viewport height - excludes browser UI */
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
+    }
+    
+    /* Allow scrolling on Sort Game results page */
+    body.sort-results {
+        height: auto !important;
+        overflow: auto !important;
+        overflow-y: scroll !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    body.sort-results #container {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
     }
 
+    /* Header elements */
+    .flashcard-title, #mode-tabs, #timer {
+        flex-shrink: 0;
+    }
+
+    /* Card container takes remaining space */
     #card-container {
         flex: 1;
-        margin: 3px 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 180px;
+        margin: 4px 0 0 0;
     }
 
     #card {
-        height: 100%;
+        flex: 1;
         font-size: 18px;
-        min-height: unset;
+        min-height: 180px;
+        max-height: none;
+    }
+
+    /* Controls above bottom buttons */
+    #practiceControls, #testControls, #stats, #finalResult, #reviewControls, .button-container, #sortControls {
+        flex-shrink: 0;
+        margin: 4px 0;
+    }
+    
+    /* Test mode specific adjustments */
+    #testControls {
+        margin: 0;
+    }
+    
+    #activeTest {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+    
+    .number-pad {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        margin: 3px 0;
+    }
+    
+    .number-row {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        padding: 0 8px;
+    }
+    
+    .num-btn {
+        flex: 1;
+        max-width: 55px;
+        height: 44px;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #4285f4;
+        background-color: #f8f9fa;
+        color: #333;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .num-btn:active {
+        background-color: #4285f4;
+        color: white;
+        transform: scale(0.95);
+    }
+    
+    .clear-btn {
+        background-color: #ea4335;
+        border-color: #ea4335;
+        color: white;
+        max-width: 80px;
+    }
+    
+    .clear-btn:active {
+        background-color: #d33b2c;
+    }
+    
+    .submit-btn {
+        background-color: #34a853;
+        border-color: #34a853;
+        color: white;
+        max-width: 80px;
+        font-weight: bold;
+    }
+    
+    .submit-btn:active {
+        background-color: #2d8f43;
+    }
+    
+    /* Special spacing for bottom row with Clear and Submit */
+    .number-row:last-child {
+        gap: 10px;
+    }
+    
+    #stats {
+        text-align: center;
+    }
+
+    /* Bottom buttons on same line and at bottom */
+    .bottom-buttons {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        justify-content: center;
+        margin-top: auto;
+        margin-bottom: 10px;
+        padding: 8px 0;
+    }
+    
+    .bottom-buttons .button {
+        flex: 1;
+        max-width: 140px;
+        text-align: center;
     }
 
     .tab, #submit, .bottom-buttons .button {
@@ -852,8 +1474,25 @@ td, th {
     }
 
     #input {
-        font-size: 13px;
+        font-size: 16px; /* Prevent zoom on focus */
         padding: 7px;
+    }
+    
+    /* When input is focused, adjust layout for keyboard */
+    #input:focus {
+        scroll-margin-top: 10px;
+    }
+    
+    /* Compact layout when virtual keyboard is likely present */
+    body:has(#input:focus) #card-container,
+    body.keyboard-active #card-container {
+        min-height: 100px;
+    }
+    
+    body:has(#input:focus) #card,
+    body.keyboard-active #card {
+        min-height: 100px;
+        font-size: 16px;
     }
 
     #stats {
@@ -867,6 +1506,10 @@ td, th {
         margin-top: 8px;
         margin-bottom: 8px;
         padding: 0 8px;
+    }
+
+    .keyboard-instructions {
+        display: none;
     }
 
     .bottom-buttons {
@@ -899,16 +1542,20 @@ td, th {
 /* Landscape orientation adjustments */
 @media screen and (max-height: 480px) and (orientation: landscape) {
     #card {
-        height: 100px;
         font-size: 16px;
+        min-height: 100px;
     }
 
     #stats {
-        margin-top: 10px;
+        margin: 5px 0;
+    }
+
+    #practiceControls, #testControls {
+        margin: 5px 0;
     }
 
     .bottom-buttons {
-        margin-top: 15px;
+        margin-top: 5px;
     }
 
     .bottom-buttons .button {

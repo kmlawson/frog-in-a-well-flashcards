@@ -8,7 +8,10 @@ Each card set is stored in a separate text file with a specific format:
 2. **Second line**: Description of the card set
 3. **Third line**: Minimum percentage pass (0-100)
    - Use `0` to disable the test mode for this card set
-4. **Subsequent lines**: Card content, with front and back separated by a tab character
+4. **Fourth line**: Name for the category of this deck. Each category will get its own header in the main index of decks.
+5. **Subsequent lines**: Card content, with front and back separated by a tab character
+
+**Note:** If you have a line towards bottom starting with "Sources:" then any lines after that will be treated as a list of sources for your timeline and displayed as such.
 
 ### Example Card File:
 
@@ -16,6 +19,7 @@ Each card set is stored in a separate text file with a specific format:
 Basic Mathematics
 Review of fundamental math concepts
 75
+Math
 2 + 2 =	4
 What is pi?	3.14159
 Square root of 9	3
@@ -35,6 +39,7 @@ To create a practice-only card set (no test mode available), set the minimum per
 World Capitals
 Practice recognizing world capitals
 0
+Geography
 France	Paris
 Japan	Tokyo
 Egypt	Cairo

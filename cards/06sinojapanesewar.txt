@@ -1,6 +1,7 @@
 Sino-Japanese War Pack - Large
-A supplemental timeline on the second Sino-Japanese War and events leading up to it. Version: 1.1. Last Updated: 2024.7.27
+A supplemental timeline on the second Sino-Japanese War and events leading up to it. Version: 1.2. Last Updated: 2025.8.24
 80%
+China
 Jinan incident with Japanese forces in Shandong	1928, May
 Zhang Zuolin assassinated by Japanese	1928, Jun
 Japanese attack and occupation of parts of Shanghai after staged attack on Japanese monks and civilians	1932
@@ -13,12 +14,12 @@ Tanggu Truce creates demilitarized zone in northern Hebei	1933, May
 German general Hans von Seeckt arrives as military advisor to Chiang Kai-shek	1933, May
 Puyi resumes imperial status, taking reign title Kangde	1934, Mar
 Prince Te Inner Mongolian movement	1934
-Second visit to China of German military advisor Hans von Seeckt, secret treaty signed	1934
 He-Umezu agreement signed, “Hebei-Chahar Political Council” formed	1935
 Qin-Doihara agreement	1935
 December 9th Movement against Japanese imperialism	1935
 “East Hebei Autonomous Council” formed with Japanese support	1935
 Beijing and Tianjin occupied by Japanese forces	1937, Jul
+Battle of Shanghai	1937, Aug-Nov
 CCP Red Army re-designated as the Eighth Route Army	1937, Sep
 Lin Biao forces defeat Japanese in Pingxingguan ambush	1937, Sep
 Shijiazhuang falls to Japanese	1937, Oct
@@ -40,9 +41,9 @@ Wang Jingwei leaves Chongqing heads to Hanoi	1938, Dec
 Konoe Fumimaro "Three Principles" statement for settlement of the war	1938, Dec
 The Burma Road is completed	1938
 Soviet-Japanese clashes, Nomonhan Incident	1939
-Burma road opens to traffic	1939, Mar
+Burma road opens to traffic	1939
 Fierce battles for Changsha, which holds until 1944	1939
-Mengjiang government in Inner Mongolia founded with Japanese support	1939
+Mengjiang government in Inner Mongolia proclaimed with Japanese support	1939
 Wang Jingwei secret agreement with Japanese	1939, Dec
 Wang Jingwei declares new "Reorganized" Nationalist government at Nanjing	1940, Mar
 Burma road closed for several months	1940, Jul
@@ -52,9 +53,9 @@ Japan occupies northern Vietnam after fall of France	1940, Sep
 Battle of Huangqiao between Nationalist forces and New Fourth Army of the CCP	1940, Oct
 Chiang Kai-shek gives ultimatum demanding all Communist forces move north of Yangzi by end of year	1940, Dec
 New Fourth Army Incident	1941, Jan
-Fuzhou falls to Japanese	1941, Apr
+Fuzhou briefly falls to Japanese	1941, Apr
 Zhengzhou falls to Japanese	1941, Oct
-Hong Kong falls to Japanese	1941, Dec
+Hong Kong falls to Japanese, Pacific War begins	1941, Dec
 US lend-lease extended to Chinese government	1941
 Joseph Stilwell US commander of China Burma India Theater	1942-4
 Hundreds of thousands die in Henan Famine	1942-3
@@ -63,7 +64,6 @@ Wang's Nanjing regime launch Rural Pacification Movement	1942, May
 Japanese defeated at Midway	1942, Jun
 Wang Jingwei regime permitted to take control of government	1943
 Wang's regime reorganized, launch New Citizen Movement	1943, Jan
-Japanese and Thai attack Yunnan	1943, Jan
 Treaties abolish extraterritoriality	1943, Jan
 Japanese "mopping up" campaigns in Jin-Cha-Ji and Ji-Lu-Yu Border Regions	1943
 Chiang Kai-shek attends the Cairo Conference	1943, Nov
@@ -71,10 +71,10 @@ Wang Jingwei falls ill and dies	1944, Mar
 Japanese "Ichigo" offensive	1944-5
 Changsha falls	1944, Jun
 Dixie Mission begins with US observers arriving in Yan'an	1944, Jul
+Second occupation of Fuzhou by Japan	1944, Oct
 Guilin falls to Japanese	1944, Nov
 Chinese Expeditionary force take part in retaking of Burma	1944, Dec
 Battle of Hunan	1945, Apr
-Fuzhou and Nanning retaken by Nationalists, other cities follow in summer	1945, May
 Soviet invasion of Manchuria	1945, Aug 8
 News of a Japanese offer to surrender spreads throughout Chinese forces	1945, Aug 10
 Formal Japanese surrender	1945, Sep 2

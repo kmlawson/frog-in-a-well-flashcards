@@ -26,11 +26,16 @@ let stats = {
     streak: 0
 };
 
+// Function to convert markdown italic formatting to HTML
+function parseMarkdownItalics(text) {
+    return text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+}
+
 
 // Initialize flashcards
 async function initializeFlashcards(filename) {
     try {
-        const { title, description, cards, requiredPercentage: fetchedPercentage } = await fetchCardSet(filename);
+        const { title, description, category, cards, requiredPercentage: fetchedPercentage } = await fetchCardSet(filename);
         requiredPercentage = fetchedPercentage; // Store the fetched percentage
         clearTimer();
         originalCards = cards;
@@ -50,16 +55,22 @@ async function initializeFlashcards(filename) {
         <div id="mode-tabs">
             <button id="practiceMode" class="tab active">Practice</button>
             <button id="testMode" class="tab">Test</button>
+            <button id="sortMode" class="tab">Sort Game</button>
         </div>
-    ` : ''}
+    ` : `
+        <div id="mode-tabs">
+            <button id="practiceMode" class="tab active">Practice</button>
+            <button id="sortMode" class="tab">Sort Game</button>
+        </div>
+    `}
     <div id="timer" style="display:none;">Time: <span id="time">0</span>s</div>
     <div id="card-container">
         <div id="card"></div>
     </div>
     <div id="practiceControls">
         <p id="practiceInstructions">
-            Tap to flip, then tap on right for correct or on left for incorrect.<br>
-            Keyboard: Spacebar to flip/mark correct, Backspace to mark incorrect.
+            Tap to flip, then: tap right = 'correct'; tap left = 'incorrect'<br>
+            <span class="keyboard-instructions">Keyboard: Spacebar to flip/mark correct, Backspace to mark incorrect.</span>
         </p>
     </div>
     ${requiredPercentage > 0 ? `
@@ -67,7 +78,27 @@ async function initializeFlashcards(filename) {
             <button id="startTest" class="button">Start Test</button>
             <div id="activeTest" style="display:none;">
                 <input type="text" id="input" placeholder="Enter your answer">
-                <button id="submit">Submit</button>
+                <div class="number-pad">
+                    <div class="number-row">
+                        <button class="num-btn" data-num="1">1</button>
+                        <button class="num-btn" data-num="2">2</button>
+                        <button class="num-btn" data-num="3">3</button>
+                        <button class="num-btn" data-num="4">4</button>
+                        <button class="num-btn" data-num="5">5</button>
+                    </div>
+                    <div class="number-row">
+                        <button class="num-btn" data-num="6">6</button>
+                        <button class="num-btn" data-num="7">7</button>
+                        <button class="num-btn" data-num="8">8</button>
+                        <button class="num-btn" data-num="9">9</button>
+                        <button class="num-btn" data-num="0">0</button>
+                    </div>
+                    <div class="number-row">
+                        <button class="num-btn" data-num="-">-</button>
+                        <button class="num-btn clear-btn">Clear</button>
+                        <button id="submit" class="num-btn submit-btn">Submit</button>
+                    </div>
+                </div>
             </div>
         </div>
     ` : ''}
@@ -83,14 +114,50 @@ async function initializeFlashcards(filename) {
                 <button id="endReview" class="review-button">End Review</button>
             </div>
             <div class="button-container">
-            <button id="startOver" style="display:none;">Start Over</button>
-            <button id="reviewIncorrect" style="display:none;">Review Incorrect Answers</button>
-            </div>
-            
-            <div class="button-container">
                 <button id="startOver" style="display:none;">Start Over</button>
                 <button id="reviewIncorrect" style="display:none;">Review Incorrect Answers</button>
             </div>
+            <!-- Sort Game Controls -->
+            <div id="sortControls" style="display:none;">
+                <div id="sortGameSelection">
+                    <div style="text-align: center; margin: 40px 0;">
+                        <h2>Choose number of cards to sort:</h2>
+                        <div id="cardCountOptions" style="margin: 20px 0;">
+                            <!-- Card count buttons will be populated dynamically -->
+                        </div>
+                        <p style="color: #666; font-size: 14px;">Arrange the cards in chronological order from earliest to latest</p>
+                    </div>
+                </div>
+                
+                <div id="sortGameInterface" style="display:none;">
+                    
+                    <div id="sortGameControls" style="text-align: center; margin: 10px 0;">
+                        <button id="submitSort" class="sort-button">Submit</button>
+                        <button id="resetSort" class="sort-button">Reset</button>
+                    </div>
+                    
+                    <div id="sortGameContainer" style="display: flex; height: calc(100vh - 250px); min-height: 300px; gap: 20px;">
+                        <div id="leftCards" style="flex: 1; padding: 10px; overflow-y: auto;">
+                            <div id="unsortedCards"></div>
+                        </div>
+                        <div id="rightCards" style="flex: 1; padding: 10px; overflow-y: auto;">
+                            <h3 style="margin-top: 0; text-align: center;">Events in Order</h3>
+                            <div id="sortedCards"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sortGameResults" style="display:none;">
+                    <div id="sortResultsContent">
+                        <!-- Results will be populated by sort game -->
+                    </div>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button id="playSortAgain" class="sort-button">Play Again</button>
+                        <button id="goPractice" class="sort-button">Practice Mode</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="bottom-buttons">
                 <a href="#index" class="button">Return to Index</a>
                 <a href="#list/${filename}" class="button" id="browseList">Browse List</a>
@@ -133,6 +200,7 @@ async function fetchAllCardSets() {
                 filename,
                 title: content.title,
                 description: content.description,
+                category: content.category,
                 cardCount: content.cards.length,
                 requiredPercentage: content.requiredPercentage,
                 hasHighScores
@@ -163,18 +231,42 @@ async function fetchCardSet(filename) {
     const response = await fetch(`cards/${filename}`);
     if (!response.ok) throw new Error('Failed to fetch card set');
     const content = await response.text();
-    const { title, description, requiredPercentage, cards } = parseCardSet(content);
-    return { title, description, requiredPercentage, cards };
+    const { title, description, requiredPercentage, category, cards, sources } = parseCardSet(content);
+    return { title, description, requiredPercentage, category, cards, sources };
 }
 
 
 function parseCardSet(content) {
-    const lines = content.split('\n').filter(line => line.trim() !== '');
+    const allLines = content.split('\n');
+    
+    // Find the "Sources:" line if it exists
+    const sourcesIndex = allLines.findIndex(line => line.trim().startsWith('Sources:'));
+    
+    // Split content into main section and sources section
+    let mainLines, sources = [];
+    if (sourcesIndex !== -1) {
+        mainLines = allLines.slice(0, sourcesIndex);
+        // Get sources lines after "Sources:" line, ignoring blank lines
+        const sourcesLines = allLines.slice(sourcesIndex + 1);
+        sources = sourcesLines
+            .map(line => line.trim())
+            .filter(line => line !== ''); // Remove blank lines from sources
+    } else {
+        mainLines = allLines;
+    }
+    
+    // Filter blank lines from main content
+    const lines = mainLines
+        .map(line => line.trim())
+        .filter(line => line !== '');
+    
     const title = lines.shift();
     const description = lines.shift();
     const requiredPercentage = parseFloat(lines.shift()) || 0; // Parse as float, default to 0 if not a valid number
-    const cards = lines.map(line => {
+    const category = lines.shift() || 'Uncategorized'; // Parse category from line 4
+    const cards = lines.filter(line => line.includes('\t')).map(line => {
         const [front, back] = line.split('\t');
+        if (!front || !back) return null; // Skip invalid lines
         const frontText = front.trim();
         const backText = back.trim();
         
@@ -210,8 +302,8 @@ function parseCardSet(content) {
             0: frontText,
             1: displayAnswer
         };
-    });
-    return { title, description, requiredPercentage, cards };
+    }).filter(card => card !== null); // Remove any null cards
+    return { title, description, requiredPercentage, category, cards, sources };
 }
 
 
@@ -298,11 +390,27 @@ function updateTestCard() {
     if (testIndex < testCards.length) {
         currentCard = testCards[testIndex];
         const front = currentCard.front || currentCard[0];
-        document.getElementById('card').innerHTML = `<div class="card-content">${front}</div>`;
+        document.getElementById('card').innerHTML = `<div class="card-content">${parseMarkdownItalics(front)}</div>`;
         currentCardAnswer = currentCard.displayAnswer || currentCard[1];
-        document.getElementById('input').value = '';
+        const inputElement = document.getElementById('input');
+        if (inputElement) {
+            // Force clear the input to prevent any "null" display
+            inputElement.value = '';
+            // Double-check after a tiny delay to ensure it's cleared
+            setTimeout(() => {
+                if (inputElement.value === 'null' || inputElement.value === 'undefined') {
+                    inputElement.value = '';
+                }
+            }, 10);
+        }
         document.getElementById('card-container').style.display = 'block';
-        document.getElementById('input').focus();
+        
+        // Auto-focus on desktop only (mobile uses readonly input with number pad)
+        if (window.innerWidth > 600) {
+            setTimeout(() => {
+                document.getElementById('input').focus();
+            }, 100);
+        }
         updateStats();
     } else {
         endTest();
@@ -372,7 +480,7 @@ function submitTestAnswer() {
         }
     } else {
         // Show correct answer briefly
-        cardElement.innerHTML = `<div class="card-content">${checkResult.primaryAnswer}</div>`;
+        cardElement.innerHTML = `<div class="card-content">${parseMarkdownItalics(checkResult.primaryAnswer)}</div>`;
         setTimeout(() => {
             testIndex++;
             if (testIndex >= testCards.length) {
@@ -585,7 +693,7 @@ function updateCard() {
     }
 
     showingFront = true;
-    cardElement.innerHTML = `<div class="card-content">${currentCard.front || currentCard[0]}</div>`;
+    cardElement.innerHTML = `<div class="card-content">${parseMarkdownItalics(currentCard.front || currentCard[0])}</div>`;
     currentCardAnswer = currentCard.displayAnswer || currentCard[1];
 
     const inputElement = document.getElementById('input');
@@ -600,12 +708,12 @@ function flipCard() {
     showingFront = !showingFront;
     const front = currentCard.front || currentCard[0];
     const back = currentCard.displayAnswer || currentCard[1];
-    document.getElementById('card').innerHTML = `<div class="card-content">${showingFront ? front : back}</div>`;
+    document.getElementById('card').innerHTML = `<div class="card-content">${showingFront ? parseMarkdownItalics(front) : parseMarkdownItalics(back)}</div>`;
 }
 
 // Handle card click
 function handleCardClick(event) {
-    if (testMode) return;
+    if (testMode || sortMode) return;
 
     const pageWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const clickX = event.clientX || (event.changedTouches && event.changedTouches[0].clientX);
@@ -640,6 +748,12 @@ function checkAnswer(userAnswer) {
     const primaryAnswer = currentCard.displayAnswer || currentCardAnswer;
     const primaryAnswerLower = primaryAnswer.trim().toLowerCase();
 
+    // Function to normalize text by keeping only numbers and dashes
+    function normalizeToNumbersAndDashes(str) {
+        return str.replace(/[^\d\-–—]/g, '').trim();
+    }
+
+
     // Function to extract year from a string
     function extractYear(str) {
         const yearMatch = str.match(/\b(\d{4})\b/);
@@ -660,12 +774,16 @@ function checkAnswer(userAnswer) {
         return null;
     }
 
+    // Normalize user answer for flexible matching
+    const normalizedUserAnswer = normalizeToNumbersAndDashes(userAnswer);
+
     // Check against all acceptable answers
     for (let i = 0; i < acceptableAnswers.length; i++) {
         const acceptable = acceptableAnswers[i].trim();
         const acceptableLower = acceptable.toLowerCase();
+        const normalizedAcceptable = normalizeToNumbersAndDashes(acceptable);
         
-        // Check for exact match first
+        // Check for exact match first (original logic)
         if (userAnswerLower === acceptableLower) {
             const isPrimary = (i === 0);
             const isMonthOmitted = primaryAnswer.includes(',') && !userAnswer.includes(',') && 
@@ -674,6 +792,17 @@ function checkAnswer(userAnswer) {
             return {
                 isCorrect: true,
                 acceptanceType: isPrimary ? 'exact' : (isMonthOmitted ? 'month-omitted' : 'alternative'),
+                userAnswer: userAnswer,
+                primaryAnswer: primaryAnswer,
+                matchedAnswer: acceptable
+            };
+        }
+
+        // Check for normalized match (numbers and dashes only)
+        if (normalizedUserAnswer && normalizedAcceptable && normalizedUserAnswer === normalizedAcceptable) {
+            return {
+                isCorrect: true,
+                acceptanceType: i === 0 ? 'normalized' : 'normalized-alternative',
                 userAnswer: userAnswer,
                 primaryAnswer: primaryAnswer,
                 matchedAnswer: acceptable
@@ -780,17 +909,26 @@ function updateStats() {
         Correct: ${stats.correct} | Incorrect: ${stats.incorrect}<br>
         Remaining: ${stats.remaining}/${stats.total} | Streak: ${stats.streak}
     `;
-    statsElement.style.display = 'block'; // Ensure stats are visible
+    // Only show stats if not in sort mode
+    if (!sortMode) {
+        statsElement.style.display = 'block';
+    }
 }
 
 // Switch mode
 function switchMode(mode) {
     if (requiredPercentage === 0 && mode === 'test') {
-        // console.log('Test mode is not available for this card set');
         return;
     }
+    
     testMode = mode === 'test';
     reviewMode = false;
+    sortMode = mode === 'sort';
+    
+    // Clean up sort game state if switching away from sort
+    if (mode !== 'sort' && typeof cleanupSortGame === 'function') {
+        cleanupSortGame();
+    }
 
     // Clear any existing timer
     clearTimer();
@@ -802,8 +940,10 @@ function switchMode(mode) {
 
     const practiceModeElement = document.getElementById('practiceMode');
     const testModeElement = document.getElementById('testMode');
+    const sortModeElement = document.getElementById('sortMode');
     const practiceControls = document.getElementById('practiceControls');
     const testControls = document.getElementById('testControls');
+    const sortControls = document.getElementById('sortControls');
     const cardContainer = document.getElementById('card-container');
     const startTest = document.getElementById('startTest');
     const activeTest = document.getElementById('activeTest');
@@ -811,16 +951,26 @@ function switchMode(mode) {
     const timer = document.getElementById('timer');
     const statsElement = document.getElementById('stats');
 
-    if (practiceModeElement) practiceModeElement.classList.toggle('active', !testMode);
+    // Update tab active states
+    if (practiceModeElement) practiceModeElement.classList.toggle('active', !testMode && !sortMode);
     if (testModeElement) testModeElement.classList.toggle('active', testMode);
-    if (practiceControls) practiceControls.style.display = testMode ? 'none' : 'block';
+    if (sortModeElement) sortModeElement.classList.toggle('active', sortMode);
+    
+    // Toggle visibility of mode-specific controls
+    if (practiceControls) practiceControls.style.display = !testMode && !sortMode ? 'block' : 'none';
     if (testControls) testControls.style.display = testMode ? 'block' : 'none';
-    if (cardContainer) cardContainer.style.display = testMode ? 'none' : 'block';
+    if (sortControls) sortControls.style.display = sortMode ? 'block' : 'none';
+    if (cardContainer) cardContainer.style.display = !testMode && !sortMode ? 'block' : 'none';
     if (startTest) startTest.style.display = testMode ? 'block' : 'none';
     if (activeTest) activeTest.style.display = 'none';
     if (finalResult) finalResult.style.display = 'none';
-    if (timer) timer.style.display = 'none';
-    if (statsElement) statsElement.style.display = 'block';
+    if (timer) timer.style.display = (testMode || sortMode) ? 'block' : 'none';
+    if (statsElement) statsElement.style.display = !sortMode ? 'block' : 'none';
+    
+    // Initialize sort game if switching to sort mode
+    if (sortMode) {
+        initializeSortGameInterface();
+    }
 
     // Always remove the existing buttonsContainer if it exists
     const existingButtonsContainer = document.getElementById('buttonsContainer');
@@ -969,6 +1119,10 @@ function handleKeyboardInput(event) {
 function router() {
     const path = window.location.hash.slice(1);
     clearTimer();
+    
+    // Remove sort-results class when navigating away from sort game results
+    document.body.classList.remove('sort-results');
+    
     if (path.startsWith('cards/')) {
         initializeFlashcards(path.slice(6));
     } else if (path === 'index' || path === '') {
@@ -1016,29 +1170,50 @@ async function showIndex() {
             console.error('Container element not found');
             return;
         }
+        // Group card sets by category
+        const groupedSets = cardSets.reduce((groups, set) => {
+            const category = set.category || 'Uncategorized';
+            if (!groups[category]) {
+                groups[category] = [];
+            }
+            groups[category].push(set);
+            return groups;
+        }, {});
+
+        // Generate HTML for grouped card sets
+        const categoryHTML = Object.keys(groupedSets).sort().map(category => {
+            const sets = groupedSets[category];
+            return `
+                <div class="category-section">
+                    <h2>${category}</h2>
+                    <ul class="card-set-list">
+                        ${sets.map(set => {
+                            const baseFilename = set.filename.replace('.txt', '');
+                            return `
+                            <li class="card-set-item">
+                                <div class="card-set-title"><a href="#cards/${set.filename}">${set.title}</a></div>
+                                <div class="card-set-description">${set.description}</div>
+                                <div class="card-set-actions">
+                                    <span class="card-count">Items: ${set.cardCount}</span>
+                                    ${set.requiredPercentage > 0 
+                                        ? `<span class="required-percentage">Minimum Pass: ${set.requiredPercentage}%</span>`
+                                        : '<span class="practice-only">Practice Only</span>'}
+                                    <a href="#list/${set.filename}">Browse List</a>  
+                                    <a href="cards/${set.filename}" download>Download</a>
+                                    ${set.hasHighScores ? `<a href="#" class="high-scores-toggle" data-filename="${baseFilename}">High Scores</a>` : ''}
+                                </div>
+                                ${set.hasHighScores ? `<div class="high-scores-container" id="highScores_${baseFilename}" style="display:none;"></div>` : ''}
+                            </li>
+                            `;
+                        }).join('')}
+                    </ul>
+                </div>
+            `;
+        }).join('');
+
         container.innerHTML = `
-            <h1>Flashcard Review</h1>
-            <h2>Available Card Sets:</h2>
-            <ul class="card-set-list">
-                ${cardSets.map(set => {
-                    const baseFilename = set.filename.replace('.txt', '');
-                    return `
-                    <li class="card-set-item">
-                        <div class="card-set-title"><a href="#cards/${set.filename}">${set.title}</a></div>
-                        <div class="card-set-description">${set.description}</div>
-                        <div class="card-set-actions">
-                            <span class="card-count">Items: ${set.cardCount}</span>
-                            ${set.requiredPercentage > 0 
-                                ? `<span class="required-percentage">Minimum Pass: ${set.requiredPercentage}%</span>`
-                                : '<span class="practice-only">Practice Only</span>'}
-                            <a href="#list/${set.filename}">Browse List</a>  
-                            <a href="cards/${set.filename}" download>Download</a>
-                            ${set.hasHighScores ? `<a href="#" class="high-scores-toggle" data-filename="${baseFilename}">High Scores</a>` : ''}
-                        </div>
-                        ${set.hasHighScores ? `<div class="high-scores-container" id="highScores_${baseFilename}" style="display:none;"></div>` : ''}
-                    </li>
-                `}).join('')}
-            </ul>
+            <h1>Modern East Asian History Timeline Review</h1>
+            ${categoryHTML}
             <footer class="index-footer">This game was created with Anthropic Claude Sonnet 3.5 with Konrad Lawson at the prompt.</footer>
         `;
 
@@ -1063,26 +1238,97 @@ async function showIndex() {
 
 // Show list view
 async function showList(filename) {
-    const { title, description, cards } = await fetchCardSet(filename);
+    const { title, description, category, cards, sources } = await fetchCardSet(filename);
     const container = document.getElementById('container');
     
     const frontClass = gameOptions.ListFrontWrap ? 'wrap' : 'nowrap';
-    const backClass = gameOptions.ListBackWrap ? 'wrap' : 'nowrap';
+    const backClass = 'nowrap'; // Always no wrap for Back column
     
+    // Check if any cards have bracketed alternative answers
+    const hasAlternatives = cards.some(card => {
+        // Re-parse the original back text to check for brackets
+        const backText = (card.displayAnswer || card[1]) + (card.acceptableAnswers && card.acceptableAnswers.length > 1 ? ` [${card.acceptableAnswers.slice(1).join('|')}]` : '');
+        // Actually, let's check if original parsing found bracketed alternatives
+        // This is tricky - let me check the original data structure
+        const acceptableAnswers = card.acceptableAnswers || [];
+        const displayAnswer = card.displayAnswer || card[1];
+        
+        // If there are alternatives, check if any are NOT just year-only versions
+        if (acceptableAnswers.length <= 1) return false;
+        
+        // Check if any alternatives are NOT just year-only versions of month-specific dates
+        const hasRealAlternatives = acceptableAnswers.slice(1).some(alt => {
+            // If the display answer has a month and this alt is just the year, it's auto-generated
+            if (displayAnswer.match(/^\d{4},\s+\w+$/) && alt === displayAnswer.split(',')[0].trim()) {
+                return false; // This is just an auto-generated year-only version
+            }
+            return true; // This is a real bracketed alternative
+        });
+        
+        return hasRealAlternatives;
+    });
+    
+    // Build table header
+    const tableHeader = hasAlternatives 
+        ? `<tr>
+               <th class="${backClass}">Year</th>
+               <th class="${frontClass}">Description</th>
+               <th class="${backClass}">Alternatives</th>
+           </tr>`
+        : `<tr>
+               <th class="${backClass}">Year</th>
+               <th class="${frontClass}">Description</th>
+           </tr>`;
+    
+    // Build table rows
+    const tableRows = cards.map((card) => {
+        const front = card.front || card[0];
+        const back = card.displayAnswer || card[1];
+        
+        if (hasAlternatives) {
+            const acceptableAnswers = card.acceptableAnswers || [back];
+            const displayAnswer = card.displayAnswer || back;
+            
+            // Get only real bracketed alternatives (not auto-generated year-only versions)
+            const realAlternatives = acceptableAnswers.slice(1).filter(alt => {
+                // If the display answer has a month and this alt is just the year, it's auto-generated
+                if (displayAnswer.match(/^\d{4},\s+\w+$/) && alt === displayAnswer.split(',')[0].trim()) {
+                    return false; // This is just an auto-generated year-only version
+                }
+                return true; // This is a real bracketed alternative
+            });
+            
+            const alternativesText = realAlternatives.length > 0 ? realAlternatives.join(', ') : '';
+            
+            return `<tr>
+                        <td class="${backClass}">${parseMarkdownItalics(back)}</td>
+                        <td class="${frontClass}">${parseMarkdownItalics(front)}</td>
+                        <td class="${backClass}" style="color: #888; font-size: 0.8em;">${parseMarkdownItalics(alternativesText)}</td>
+                    </tr>`;
+        } else {
+            return `<tr>
+                        <td class="${backClass}">${parseMarkdownItalics(back)}</td>
+                        <td class="${frontClass}">${parseMarkdownItalics(front)}</td>
+                    </tr>`;
+        }
+    }).join('');
+    
+    // Build sources section if sources exist
+    const sourcesSection = sources && sources.length > 0 
+        ? `<div class="sources-section">
+               <h3>Sources</h3>
+               ${sources.map(source => `<div class="source-item">${parseMarkdownItalics(source)}</div>`).join('')}
+           </div>`
+        : '';
+
     container.innerHTML = `
         <h2>${title}</h2>
         <p>${description}</p>
         <table>
-            <tr>
-                <th class="${frontClass}">Front</th>
-                <th class="${backClass}">Back</th>
-            </tr>
-            ${cards.map((card) => {
-                const front = card.front || card[0];
-                const back = card.displayAnswer || card[1];
-                return `<tr><td class="${frontClass}">${front}</td><td class="${backClass}">${back}</td></tr>`;
-            }).join('')}
+            ${tableHeader}
+            ${tableRows}
         </table>
+        ${sourcesSection}
         <div class="bottom-buttons">
             <a href="#index" class="button">Return to Index</a>
             <a href="#cards/${filename}" class="button">Review</a>
@@ -1150,23 +1396,31 @@ window.addEventListener('DOMContentLoaded', () => {
     router(); // This will call the appropriate function based on the current URL
 });
 
-function initializeEventListeners() {
-    const card = document.getElementById('card');
-    if (card) {
-        // Use touchend for mobile devices
-        // card.addEventListener('touchend', (e) => {
-        //    e.preventDefault(); // Prevent default touch behavior
-        //    handleCardClick(e);
-        // });
+// Store references to event handlers to enable cleanup
+let globalClickHandler = null;
+let globalKeydownHandler = null;
 
-        // Use click for desktop devices
-        card.addEventListener('click', handleCardClick);
+function initializeEventListeners() {
+
+    // Clean up existing global event listeners before adding new ones
+    if (globalClickHandler) {
+        document.body.removeEventListener('click', globalClickHandler);
+    }
+    if (globalKeydownHandler) {
+        document.removeEventListener('keydown', globalKeydownHandler);
     }
 
-    // Use event delegation for dynamically created elements
-    document.body.addEventListener('click', (e) => {
-        if (e.target.id === 'practiceMode') switchMode('practice');
-        if (e.target.id === 'testMode') switchMode('test');
+    // Create and store the click handler
+    globalClickHandler = (e) => {
+        if (e.target.id === 'practiceMode') {
+            switchMode('practice');
+        }
+        if (e.target.id === 'testMode') {
+            switchMode('test');
+        }
+        if (e.target.id === 'sortMode') {
+            switchMode('sort');
+        }
         if (e.target.id === 'startTest') startTest();
         if (e.target.id === 'submit') {
             e.preventDefault();
@@ -1174,13 +1428,70 @@ function initializeEventListeners() {
                 submitTestAnswer();
             }
         }
+        
+        // Handle number pad buttons
+        if (e.target.classList.contains('num-btn') && !e.target.classList.contains('clear-btn')) {
+            e.preventDefault();
+            const input = document.getElementById('input');
+            if (input) {
+                const num = e.target.getAttribute('data-num');
+                const currentValue = input.value || '';
+                input.value = currentValue + num;
+            }
+        }
+        
+        // Handle clear button
+        if (e.target.classList.contains('clear-btn')) {
+            e.preventDefault();
+            const input = document.getElementById('input');
+            if (input) {
+                input.value = '';
+            }
+        }
         if (e.target.id === 'startOver') startOver();
         if (e.target.id === 'reviewIncorrect') reviewIncorrect();
-    });
+        
+        // Handle sort game buttons
+        if (e.target.id === 'submitSort') {
+            e.preventDefault();
+            if (typeof submitSortGame === 'function') {
+                submitSortGame();
+            }
+        }
+        if (e.target.id === 'resetSort') {
+            e.preventDefault();
+            if (typeof resetSortGame === 'function') {
+                resetSortGame();
+            }
+        }
+        if (e.target.id === 'playSortAgain') {
+            e.preventDefault();
+            if (typeof initializeSortGameInterface === 'function') {
+                initializeSortGameInterface();
+            }
+        }
+        if (e.target.id === 'goPractice') {
+            e.preventDefault();
+            switchMode('practice');
+        }
+        
+        // Handle card clicking
+        if (e.target.id === 'card' || e.target.closest('#card')) {
+            handleCardClick(e);
+        }
+    };
+
+    // Use event delegation for dynamically created elements
+    document.body.addEventListener('click', globalClickHandler);
 
 
     const input = document.getElementById('input');
     if (input) {
+        // Make input readonly only on mobile (width <= 600px)
+        if (window.innerWidth <= 600) {
+            input.setAttribute('readonly', 'true');
+        }
+        
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -1189,10 +1500,20 @@ function initializeEventListeners() {
                 }
             }
         });
+        
+        // Handle focus for desktop (when not readonly)
+        if (!input.hasAttribute('readonly')) {
+            input.addEventListener('focus', () => {
+                // Desktop behavior - can add focus handling here if needed
+            });
+        }
     }
 
+    // Create and store the keyboard handler
+    globalKeydownHandler = handleKeyboardInput;
+    
     // Add keyboard event listener
-    document.addEventListener('keydown', handleKeyboardInput);
+    document.addEventListener('keydown', globalKeydownHandler);
 
     // Review controls
     document.getElementById('reviewTest')?.addEventListener('click', startReview);

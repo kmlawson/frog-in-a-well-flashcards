@@ -1,13 +1,14 @@
 Late Qing 1790s-1911 Pack - Small
-A supplemental timeline for the Qing dynasty from the 1790s. Version 1.1, Updated: 2024.7.27
+A supplemental timeline for the Qing dynasty from the 1790s. Version 1.2, Updated: 2025.8.24
 100%
-Reign of Qianlong emperor, longest in Chinese history	1736-1795
+China
+Reign of Qianlong emperor, longest in Chinese history	1736-1796
 Qing declare Guangzhou (Canton) as the only port open to the West	1757
-Qianlong announces annexation of Xinjiang	1768
+First phase of Qing rule in Xinjiang begins	1760
 British Macartney Mission	1793, Sep
 Reign of Jiaqing emperor	1796-1820
 White Lotus Rebellion	1796-1804
-Ban on import of opium	1799
+(Renewed) Ban on import of opium	1799
 Reign of Emperor Daoguang, economic depression	1820-50
 Lin Zexu appointed imperial commissioner to deal with opium problem	1839, Mar
 Hong Kong, Xiamen, Ningbo, Shanghai occupied by British forces	1841
@@ -31,7 +32,7 @@ Ya'qub Beg enters Xinjiang and establishes autonomous state	1865
 Tianjin Massacre, foreigners killed	1870, Jun
 Margary Affair following murder of British official	1875
 Following Margary Affair, British secure Chefoo Convention opening more treaty ports	1876
-Japan seizes Ryūkyū Islands, former tributary of Qing	1879
+Japan annexes Ryūkyū Islands, former tributary of Qing	1879
 Sino-French War	1884-5
 Taiwan becomes a full province of the Qing	1885
 Treaty of Shimonoseki	1895, Apr
@@ -39,7 +40,7 @@ Kang Youwei and hundreds of others issue a scholar's petition to the throne (Gon
 Two German catholic missionaries killed, Jiaozhou (Qingdao) occupied by Germany	1897
 Russia demands and receives lease of Port Arthur (Lüshun) and Dalian	1898
 French occupy Guangzhou Bay (near Zhanjiang)	1898
-British lease of Kowloon peninsula	1898
+British lease of "New Territories" on Kowloon peninsula	1898
 British lease of Weihaiwei until 1930	1898
 The 100 Days of Reform	1898
 Boxers begin flooding into Beijing, siege of the legations	1900, Jun
