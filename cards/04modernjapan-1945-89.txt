@@ -1,5 +1,5 @@
 Postwar Japanese History 1945-1989
-A general timeline for modern Japan from 1945 to 1989. Version: 1.0. Last Updated: 2025.8.25
+A general timeline for modern Japan from 1945 to 1989. Version: 1.1. Last Updated: 2025.8.27
 100%
 Japan
 
@@ -53,8 +53,10 @@ Satō Eisaku replaces Ikeda as Prime Minister	1964, Nov
 Sōka Gakkai founds Kōmeitō party	1964, Nov
 Treaty on Basic Relations Between Japan and the Republic of Korea	1965, Jun
 Satō visits to South Korea, Taiwan, and tour of Southeast Asia	1967
+Three Non-Nuclear Principles policy announced	1967
 Return of the Ogasawara (Bonin) Islands to Japan by US	1968, Jun
 Kawabata Yasunari receives Nobel Prize in Literature	1968
+Japan World Exposition, Osaka	1970
 Mishima Yukio ritual suicide after attempted insurrection	1970, Nov
 The "Nixon shocks" of visit to China announcement and currency policy	1971
 Major pollution case court rulings	1971-3
@@ -68,6 +70,7 @@ Oil and energy crisis	1973
 Miki Takeo replaces Tanaka as Prime Minister after corruption charges emerge	1974, Dec
 Fukuda Takeo replaces Miki as Prime Minister	1976, Dec
 Prime Minister Fukuda's "Fukuda Doctrine" promoting ties to Southeast Asia	1977, Aug
+Treaty of Peace and Friendship between Japan and China	1978
 War criminal enshrined at Yasukuni	1978, Oct
 First history textbook incident creates tensions with South Korea and China	1982
 Nakasone Yasuhiro replaces Susuki Zenkō as Prime Minister	1982, Nov
