@@ -1,5 +1,5 @@
 China Timeline 1830s-1989
-A general purpose list of events related to modern Chinese history from late Qing to Tian'anmen. Supplemental timelines do not duplicated events listed here. Version 1.3. Last Updated: 2025.8.23
+A general purpose list of events related to modern Chinese history from late Qing to Tian'anmen. Supplemental timelines do not duplicated events listed here. Version 1.4. Last Updated: 2025.8.29
 100%
 China
 (First) Opium War	1839-1842
@@ -8,7 +8,7 @@ Taiping Rebellion	1850-1864 [1851-1864]
 Nian Rebellion	1851-1868 [1853-1868]
 The (First) Sino-Japanese War	1894-1895
 Taiwan Becomes a Colony of Japan	1895, Apr
-Boxer Rebellion, occupation of north China by foreign forces	1900
+Yihequan Movement (Boxer Uprising), occupation of north China by foreign forces	1900
 Sun Yat-sen founds Revolutionary Alliance (Tongmenghui)	1905
 Korea is Annexed by Japan	1910, Aug
 The Xinhai Revolution, leading to fall of the Qing	1911, Oct
